@@ -4,66 +4,108 @@ import java.util.*;
 
 public class Main {
 
-    static int mokiniuSkaicius = 5;
+    static int mokiniuSkaicius = 50000;
     static Mokinys[] mokiniai = new Mokinys[mokiniuSkaicius];
+    static Random random = new Random();
 
     public static void main(String[] args) {
-        ivestiPradiniusDuomenis();
-        print("Pradiniai duomenys:");
+        //ivestiPradiniusDuomenis();
+        sugeneruotiMokinius();
+//        print("Pradiniai duomenys:");
+//
+//        pagalKlase();
+//        print("Sulygiuota pagal klase:");
+//
+//        pagalVarda();
+//        print("Lygiuot pagal varda:");
 
-        pagalKlase();
-        print("Sulygiuota pagal klase:");
-
-        pagalVarda();
-        print("Lygiuot pagal varda:");
+        Mokinys[] kopija = new Mokinys[mokiniai.length];
+        for (int i = 0; i < mokiniai.length; i++) {
+            kopija[i] = mokiniai[i];
+        }
 
         pagalKlasePavardeVarda();
-        print("Lygiuot pagal klase, pavarde ir varda");
-
-        pagalVardaPavardeKlase();
-        print("Lygiuot pagal varda, pavarde ir klase");
+        System.out.println("Musu ciklu skaicius: " + musuMetodas);
+//        print("Lygiuot pagal klase, pavarde ir varda");
 
 
-        System.out.println("\nDemo spausdinimas: " + Arrays.toString(mokiniai));
+        for (int i = 0; i < mokiniai.length; i++) {
+            mokiniai[i] = kopija[i];
+        }
+
+        pagalKlasePavardeVardaStd();
+        System.out.println("Std ciklu skaicius: " + stdMetoddas);
+//        print("Lygiuot pagal varda, pavarde ir klase");
+
+
+//        System.out.println("\nDemo spausdinimas: " + Arrays.toString(mokiniai));
     }
 
 
     static void ivestiPradiniusDuomenis() {
         Mokinys mokinys1 = new Mokinys();
         mokinys1.setKlase(1);
-        mokinys1.vardas = "Jonas";
-        mokinys1.pavarde = "Jonaitis";
+        mokinys1.setPavarde("Jonas Petras II");
+        mokinys1.setTrimestras(new int[] {7, 8, 5, 6});
         mokiniai[0] = mokinys1;
 
         Mokinys mokinys2 = new Mokinys();
-        mokinys2.klase = 2;
-        mokinys2.vardas = "Ona";
-        mokinys2.pavarde = "Onaite";
+        mokinys2.setKlase(2);
+        mokinys2.setVardas("Ona III");
+        mokinys2.setTrimestras(new int[] {5, 7, 9, 10});
         mokiniai[1] = mokinys2;
 
-        Mokinys mokinys3 = new Mokinys();
-        mokinys3.klase = 1;
-        mokinys3.vardas = "Petras";
-        mokinys3.pavarde = "Jonaitis";
-        mokiniai[2] = mokinys3;
+        mokiniai[2] = new Mokinys("Petras", "Jonaitis", 1, new int[] {5, 7, 9, 10, 7});
 
         Mokinys mokinys4 = new Mokinys();
-        mokinys4.klase = 1;
-        mokinys4.vardas = "Jurga";
-        mokinys4.pavarde = "Jurgaite";
+        mokinys4.setKlase(1);
+        mokinys4.setVardas("Jurga");
+        mokinys4.setPavarde("Jurgaite");
+        mokinys4.setTrimestras(new int[] {5, 7, 9, 10, 5});
         mokiniai[3] = mokinys4;
 
         Mokinys mokinys5 = new Mokinys();
-        mokinys5.klase = 2;
-        mokinys5.vardas = "Antanas";
-        mokinys5.pavarde = "Antanaitis";
+        mokinys5.setKlase(2);
+        mokinys5.setVardas("Antanas");
+        mokinys5.setPavarde("Antanaitis");
+        mokinys5.setTrimestras(new int[] {5, 7, 9, 10, 4});
         mokiniai[4] = mokinys5;
+    }
+
+    static void sugeneruotiMokinius() {
+        for (int i = 0; i < mokiniai.length; i++) {
+            mokiniai[i] = sugeneruotasMokinys();
+        }
+    }
+
+    static Mokinys sugeneruotasMokinys() {
+        Mokinys mokinys = new Mokinys();
+
+        mokinys.setKlase(random.nextInt(12) + 1);
+        int[] trimestras = new int[10];
+        for (int i = 0; i < trimestras.length; i++) {
+            trimestras[i] = random.nextInt(7) + 4;
+        }
+        mokinys.setTrimestras(trimestras);
+        mokinys.setVardas(generuotiTeksta());
+        mokinys.setPavarde(generuotiTeksta());
+
+        return mokinys;
+    }
+
+    static String generuotiTeksta() {
+        int ilgis = random.nextInt(6) + 5;
+        char pirmaRaide = (char) ('A' + random.nextInt(26));
+        String tekstas = "" + pirmaRaide;
+        for (int i = 1; i < ilgis; i++) {
+            tekstas += (char) ('a' + random.nextInt(26));
+        }
+        return tekstas;
     }
 
     static void print(int indeksas) {
         System.out.println(mokiniai[indeksas].getKlase() + " " +
-                mokiniai[indeksas].vardas + " " +
-                mokiniai[indeksas].pavarde);
+                mokiniai[indeksas].pilnasVardas());
     }
 
     static void print(String title) {
@@ -103,7 +145,7 @@ public class Main {
 
             for (int i = zingsnis; i < mokiniai.length; i++) {
 
-                if (mokiniai[i].klase < mokiniai[zingsnis].klase) {
+                if (mokiniai[i].getKlase() < mokiniai[zingsnis].getKlase()) {
                     // mokiniai[i] <-> mokiniai[zingsnis]
                     sukeiciamMokinius(i, zingsnis);
                 }
@@ -116,7 +158,7 @@ public class Main {
 
             for (int i = zingsnis; i < mokiniai.length; i++) {
 
-                if (mokiniai[i].vardas.compareTo(mokiniai[zingsnis].vardas) < 0) {
+                if (mokiniai[i].getVardas().compareTo(mokiniai[zingsnis].getVardas()) < 0) {
                     // mokiniai[i] <-> mokiniai[zingsnis]
                     sukeiciamMokinius(i, zingsnis);
                 }
@@ -124,20 +166,24 @@ public class Main {
         }
     }
 
+    static int musuMetodas;
+
     static void pagalKlasePavardeVarda() {
         for (int zingsnis = 0; zingsnis < mokiniai.length - 1; zingsnis++) {
 
             for (int i = zingsnis; i < mokiniai.length; i++) {
 
-                if (mokiniai[i].klase < mokiniai[zingsnis].klase) {
+                musuMetodas++;
+
+                if (mokiniai[i].getKlase() < mokiniai[zingsnis].getKlase()) {
                     sukeiciamMokinius(i, zingsnis);
 
-                } else if (mokiniai[i].klase == mokiniai[zingsnis].klase) {
-                    if (mokiniai[i].pavarde.compareTo(mokiniai[zingsnis].pavarde) < 0) {
+                } else if (mokiniai[i].getKlase() == mokiniai[zingsnis].getKlase()) {
+                    if (mokiniai[i].getPavarde().compareTo(mokiniai[zingsnis].getPavarde()) < 0) {
                         sukeiciamMokinius(i, zingsnis);
 
-                    } else if (mokiniai[i].pavarde.compareTo(mokiniai[zingsnis].pavarde) == 0) {
-                        if (mokiniai[i].vardas.compareTo(mokiniai[zingsnis].vardas) < 0) {
+                    } else if (mokiniai[i].getPavarde().compareTo(mokiniai[zingsnis].getPavarde()) == 0) {
+                        if (mokiniai[i].getVardas().compareTo(mokiniai[zingsnis].getVardas()) < 0) {
                             sukeiciamMokinius(i, zingsnis);
                         }
                     }
@@ -146,15 +192,19 @@ public class Main {
         }
     }
 
-    static void pagalVardaPavardeKlase() {
-        Arrays.sort(mokiniai, (m1, m2) -> {
-            int pagalVarda = m1.vardas.compareTo(m2.vardas);
-            if (pagalVarda != 0) return pagalVarda;
+    static int stdMetoddas = 0;
 
-            int pagalPavarde = m1.pavarde.compareTo(m2.pavarde);
+    static void pagalKlasePavardeVardaStd() {
+        Arrays.sort(mokiniai, (m1, m2) -> {
+            stdMetoddas++;
+
+            int pagalKlase = Integer.compare(m1.getKlase(), m2.getKlase());
+            if (pagalKlase != 0) return pagalKlase;
+
+            int pagalPavarde = m1.getPavarde().compareTo(m2.getPavarde());
             if (pagalPavarde != 0) return pagalPavarde;
 
-            return Integer.compare(m1.klase, m2.klase);
+            return m1.getVardas().compareTo(m2.getVardas());
         });
     }
 }
