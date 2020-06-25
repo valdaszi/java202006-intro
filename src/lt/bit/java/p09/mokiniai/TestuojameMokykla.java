@@ -31,6 +31,6 @@ public class TestuojameMokykla {
 
         Mokinys mokinys1 = gimnazistas;
         System.out.println(mokinys1.getClass().getName());
-        
+
     }
 }
