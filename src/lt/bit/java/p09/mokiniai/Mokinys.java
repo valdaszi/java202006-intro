@@ -10,16 +10,27 @@ public class Mokinys {
     }
 
     public Mokinys(String vardas, String pavarde, int klase, int[] trimestras) {
-        this.vardas = vardas;
-        this.pavarde = pavarde;
+        this(vardas, pavarde);
         this.klase = klase;
         this.trimestras = trimestras;
+    }
+
+    public Mokinys(String vardas, String pavarde) {
+        //TODO patikrinti ar teisingas vardas ir pavarde
+        this.vardas = vardas;
+        this.pavarde = pavarde;
+        this.klase = 1;
     }
 
     public String pilnasVardas() {
         return (this.vardas == null ? "" : this.vardas) + " " +
                 (this.pavarde == null ? "" : this.pavarde);
     }
+
+    public String pilnasVardas(String titulas) {
+        return titulas + " " + pilnasVardas();
+    }
+
 
 
     public int[] getTrimestras() {

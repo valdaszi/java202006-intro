@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Main {
 
-    static int mokiniuSkaicius = 50000;
+    static int mokiniuSkaicius = 5000;
     static Mokinys[] mokiniai = new Mokinys[mokiniuSkaicius];
     static Random random = new Random();
 
@@ -208,3 +208,11 @@ public class Main {
         });
     }
 }
+
+
+/*
+
+            2 x 4 = 8        3 x 4 = 12
+            2 x 5 = 10        3 x 5 = 15
+
+ */
